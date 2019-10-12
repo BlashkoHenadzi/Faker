@@ -4,14 +4,21 @@ using System.Text;
 using BasicValueGenerater;
 namespace FakerClass.Generators
 {
-    class StringValueGenerater : IValueGenerater1
+   public class StringValueGenerater : TypedValueGenerater<string>
     {
-        public  object GenerateValue()
+        Random random;
+        public StringValueGenerater()
+        {
+            random = new Random();
+        }
+
+         public override string Generate()
         {
             StringBuilder builder = new StringBuilder();
-            Random random = new Random();
+             
+            
             char ch;
-            int size = random.Next(1,30);
+            int size = random.Next(1,40);
             for (int i = 0; i < size; i++)
             {
                 ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));

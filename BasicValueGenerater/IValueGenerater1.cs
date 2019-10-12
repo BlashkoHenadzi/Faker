@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace BasicValueGenerater
 {
+
     public interface IValueGenerater1
     {
-         object GenerateValue();
+        object Generate();
+        Type TargetType { get; }
+    }
+    interface IValueGenerater1<out T> : IValueGenerater1
+    {
+        new T Generate();
     }
 }

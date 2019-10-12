@@ -2,70 +2,84 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
-using BasicValueGenerater;
+
 using System.Runtime;
 using System.Linq;
+using System.Globalization;
+using System.Reflection;
+using FakerClass.Generators;
+using BasicValueGenerater;
 namespace FakerClass
 {
     public class Faker : IFaker
     {
+        GeneratorsCollection Genertors;
         public Faker()
         {
+             
+            Genertors = new GeneratorsCollection();
+            Genertors.AddGenerater(new StringValueGenerater());
         }
 
         public T Create<T>()
         {
             object _object;
-            _object = (T)GenerateObjectByConstructor<T>();
+            _object = (T)GenerateObjectByConstructor(typeof(T));
             return (T)_object;
         }
 
-        private T GenerateObjectByConstructor<T>()
+        private object GenerateObjectByConstructor(Type typeToCounstruct)
         {
             object _generatedobj=null;
-            ConstructorInfo _constructor = FindMatchingConstructor<T>();
+            ConstructorInfo _constructor = FindMatchingConstructor(typeToCounstruct);
             ParameterInfo[] _parametersinfo;
-
             if (_constructor != null)
             {
                 _parametersinfo = _constructor.GetParameters();
-                object[] _parametersvalue=null;
+                List<object> _parametersvalue = new List<object>();
                 if (_parametersinfo.Length>0)
-                    _parametersvalue = GenerateValueByType<T>(_parametersinfo);
-                _generatedobj = _constructor.Invoke(_parametersvalue);
+                    foreach(ParameterInfo _parameter in _parametersinfo)
+                        _parametersvalue.Add(GenerateValueByType(_parameter.ParameterType));
+                _generatedobj = _constructor.Invoke(_parametersvalue.ToArray());
             }
             else
-                _generatedobj = Activator.CreateInstance(typeof(T));
-            return (T)_generatedobj;
+                _generatedobj = Activator.CreateInstance(typeToCounstruct,true);
+            GenerateFields(typeToCounstruct, ref _generatedobj);
+            return _generatedobj;
         }
 
-        private object[] GenerateValueByType<T>(ParameterInfo[] parametersinfo)
+        private void GenerateFields(Type _objtype, ref object _object)
         {
-            List<object> _parametersvalue=new List<object>();
-            foreach(ParameterInfo parameterInfo in parametersinfo)
-            {
+            var fields = _object.GetType().GetFields();
+            foreach (FieldInfo _field in fields)
+                _field.SetValue(_object, GenerateValueByType(_field.FieldType));
+        }
+        private object GenerateValueByType(Type _typeToGenerate)
+        {
+            object _parametersvalue = null;   
+            IValueGenerater1 _parametergenerater = Genertors.GetGeneraterFromList(_typeToGenerate);
+            if (_parametergenerater != null)
+                _parametersvalue = _parametergenerater.Generate();
+            else
+                if (_typeToGenerate.IsClass)
+                    _parametersvalue = GenerateObjectByConstructor(_typeToGenerate);
+                else
+                   _parametersvalue = null;
+            return _parametersvalue;
 
-                var _generators = from v in Assembly.GetExecutingAssembly().GetTypes()
-                                where typeof(IValueGenerater1).IsAssignableFrom(v)&&
-                                     ( v.Name == parameterInfo.ParameterType.Name+"ValueGenerater") //   && t.GetMethod(_parametertype.ToString() + "ValueGenerater") != null
-                                select Activator.CreateInstance(v)as IValueGenerater1;
 
-                foreach (var _generator in _generators)
-                {
-                    _parametersvalue.Add(_generator.GenerateValue());
-                }
-            }
-            return _parametersvalue.ToArray();
         }
 
-        private ConstructorInfo FindMatchingConstructor<T>()
+
+        private ConstructorInfo FindMatchingConstructor(Type _type)
         {
-            ConstructorInfo[] _constructors = typeof(T).GetConstructors();
-            ConstructorInfo _currentconstructor = _constructors[0];
+            ConstructorInfo[] _constructors = _type.GetConstructors();
+            ConstructorInfo _currentconstructor = null;
             foreach (ConstructorInfo constructor in _constructors)
             {
-                if (constructor.GetParameters().Length > _currentconstructor.GetParameters().Length)
-                    _currentconstructor = constructor;
+                if (((_currentconstructor == null)
+                   ||(constructor.GetParameters().Length > _currentconstructor.GetParameters().Length))&&(constructor.IsPublic))
+                         _currentconstructor = constructor;
             }
             return _currentconstructor;
         }
