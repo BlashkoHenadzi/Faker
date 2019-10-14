@@ -8,8 +8,8 @@ namespace BasicValueGenerater
 {
     public abstract class TypedValueGenerater<T> : IValueGenerater1<T>
     {
-        public  Type TargetType => typeof(T);
-
+        public Type TargetType => ( typeof(T).IsGenericType? typeof(T).GetGenericTypeDefinition():typeof(T));
+        
         public abstract T Generate();
 
         object IValueGenerater1.Generate()

@@ -27,7 +27,14 @@ namespace FakerTests
                 this.teststr = ss;
             }
         }
-        
+        class Too
+        {
+            public List<string> _testllist;
+        }
+        class Dict
+        {
+            public Dictionary<string, string> _testdict;
+        }
         [TestMethod]
         public void Create_SimpleObject_GenerateObj()
         {
@@ -49,6 +56,21 @@ namespace FakerTests
             Bar _teststr = _faker.Create<Bar>();
             Assert.IsNotNull(_teststr._testFoo);
             
+        }
+        [TestMethod]
+        public void Create_FillList_testListFilled()
+        {
+            Faker _faker = new Faker();
+            Too _testList = _faker.Create<Too>();
+            Assert.IsTrue(_testList._testllist.Count>0);
+
+        }
+        [TestMethod]
+        public void Create_FillDictionary_testdictFilled()
+        {
+            Faker _faker = new Faker();
+            Dict _testdict = _faker.Create<Dict>();
+            Assert.IsTrue(_testdict._testdict.Count > 0);
         }
     }
 }

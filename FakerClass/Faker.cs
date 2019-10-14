@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
-
 using System.Runtime;
 using System.Linq;
 using System.Globalization;
-using System.Reflection;
 using FakerClass.Generators;
 using BasicValueGenerater;
+using FakerClass.Generators.Generics;
+using FakerClass.Generators.Collections;
 namespace FakerClass
 {
     public class Faker : IFaker
@@ -19,6 +19,8 @@ namespace FakerClass
              
             Genertors = new GeneratorsCollection();
             Genertors.AddGenerater(new StringValueGenerater());
+            Genertors.AddGenerater(new ListGenerator(GenerateValueByType));
+            Genertors.AddGenerater(new DictionaryGenearator(GenerateValueByType));
         }
 
         public T Create<T>()
@@ -61,10 +63,17 @@ namespace FakerClass
             if (_parametergenerater != null)
                 _parametersvalue = _parametergenerater.Generate();
             else
+            if (_typeToGenerate.IsGenericType)
+            {
+                _parametergenerater = Genertors.GetGeneraterFromList(_typeToGenerate.GetGenericTypeDefinition());
+                _parametersvalue = ((IColletionGenerator)_parametergenerater).Generate(_typeToGenerate);
+            }
+            else
                 if (_typeToGenerate.IsClass)
-                    _parametersvalue = GenerateObjectByConstructor(_typeToGenerate);
-                else
-                   _parametersvalue = null;
+                _parametersvalue = GenerateObjectByConstructor(_typeToGenerate);
+            else
+                
+                _parametersvalue = null;
             return _parametersvalue;
 
 
