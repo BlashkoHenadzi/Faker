@@ -9,18 +9,43 @@ using FakerClass.Generators;
 using BasicValueGenerater;
 using FakerClass.Generators.Generics;
 using FakerClass.Generators.Collections;
+using FakerClass.Generators.Basic;
 namespace FakerClass
 {
     public class Faker : IFaker
     {
         GeneratorsCollection Genertors;
+        Random random;
         public Faker()
         {
-             
+            random = new Random();
             Genertors = new GeneratorsCollection();
-            Genertors.AddGenerater(new StringValueGenerater());
-            Genertors.AddGenerater(new ListGenerator(GenerateValueByType));
-            Genertors.AddGenerater(new DictionaryGenearator(GenerateValueByType));
+            Genertors.AddGenerater(new StringValueGenerater(random));
+            Genertors.AddGenerater(new ListGenerator(GenerateValueByType, random));
+            Genertors.AddGenerater(new DictionaryGenearator(GenerateValueByType, random));
+            Genertors.AddGenerater(new BoolValueGenerator(random));
+            Genertors.AddGenerater(new ByteValueGenerator(random));
+            Genertors.AddGenerater(new CharValueGenerator(random));
+            Genertors.AddGenerater(new DoubleValueGenerator(random));
+            Genertors.AddGenerater(new FloatValueGenerator(random));
+            Genertors.AddGenerater(new IntValueGenerator(random));
+            Genertors.AddGenerater(new LongValueGenerator(random));
+            Genertors.AddGenerater(new SByteValueGenerator(random));
+            Genertors.AddGenerater(new ShortValueGeneartor(random));
+            Genertors.AddGenerater(new UIntValueGenerator(random));
+            Genertors.AddGenerater(new UShortValueGenerator(random));
+            
+            foreach(Type _type in Assembly.GetExecutingAssembly().GetTypes())
+            {
+                if (_type.IsAssignableFrom(typeof(TypedValueGenerater<>)))
+                {
+                    if (_type.GetInterfaces().Contains(typeof(IColletionGenerator)))
+                        Genertors.AddGenerater(_type.GetConstructor().Invoke(GenerateValueByType, random));
+
+
+
+                }
+            }
         }
 
         public T Create<T>()

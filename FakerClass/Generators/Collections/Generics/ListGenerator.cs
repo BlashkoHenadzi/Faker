@@ -8,13 +8,12 @@ namespace FakerClass.Generators.Generics
 {
     class ListGenerator : TypedValueGenerater<List<object>>, IColletionGenerator
     {
-
-        Random _random;
-        public ListElementGenerator listElementGenerator { get; private set; }
-        public ListGenerator(ListElementGenerator listElementGenerator)
+        
+        public ElementGenerator ElementGenerator { get; private set; }
+        public ListGenerator(ElementGenerator ElementGenerator, Random random)
         {
-            _random = new Random();
-            this.listElementGenerator = listElementGenerator;
+            this.random = random;
+            this.ElementGenerator = ElementGenerator;
         }
 
         
@@ -22,10 +21,10 @@ namespace FakerClass.Generators.Generics
         public override List<object> Generate()
         {
             List<object> _resultlist = new List<object>();
-            int _listsize = _random.Next(1, 50);
+            int _listsize = random.Next(1, 50);
             for (int i = 1; i <= _listsize; i++)
             {
-                _resultlist.Add(listElementGenerator.Invoke(typeof(object)));
+                _resultlist.Add(ElementGenerator.Invoke(typeof(object)));
             }
             return _resultlist;
             
@@ -34,10 +33,10 @@ namespace FakerClass.Generators.Generics
         {
             Type _generatedtype = typeof(List<>).MakeGenericType(_tvaluetype.GenericTypeArguments[0]);
             IList _resultlist = (IList)Activator.CreateInstance(_generatedtype);
-            int _listsize = _random.Next(1, 50);
+            int _listsize = random.Next(1, 50);
             for (int i = 1; i <= _listsize; i++)                
             {
-                _resultlist.Add(listElementGenerator.Invoke(_tvaluetype.GenericTypeArguments[0]));
+                _resultlist.Add(ElementGenerator.Invoke(_tvaluetype.GenericTypeArguments[0]));
             }           
             return _resultlist;
         }

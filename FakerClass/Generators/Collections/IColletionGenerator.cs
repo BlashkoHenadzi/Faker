@@ -4,10 +4,10 @@ using System.Text;
 
 namespace FakerClass.Generators.Collections
 {
-    public delegate object ListElementGenerator(Type _type);
+    public delegate object ElementGenerator(Type _type);
     public interface IColletionGenerator
     {
-        ListElementGenerator listElementGenerator { get; }
+       ElementGenerator ElementGenerator { get; }
         object Generate(Type _tvaluetype );
     }
 }

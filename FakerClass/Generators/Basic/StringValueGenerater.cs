@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using BasicValueGenerater;
-namespace FakerClass.Generators
+namespace FakerClass.Generators.Basic
 {
    public class StringValueGenerater : TypedValueGenerater<string>
     {
-        Random random;
-        public StringValueGenerater()
+        
+        public StringValueGenerater(Random random)
         {
-            random = new Random();
+            this.random = random;
         }
 
          public override string Generate()

@@ -8,13 +8,12 @@ namespace FakerClass.Generators.Collections
 {
     class DictionaryGenearator : TypedValueGenerater<Dictionary<object, object>>,IColletionGenerator
     {
-        public ListElementGenerator listElementGenerator { get; private set; }
-        Random _random;
+        public  ElementGenerator ElementGenerator { get; private set; }
 
-        public DictionaryGenearator(ListElementGenerator listElementGenerator)
+        public DictionaryGenearator(ElementGenerator ElementGenerator, Random random)
         {
-            _random = new Random();
-            this.listElementGenerator = listElementGenerator;
+            this.random = random;
+            this.ElementGenerator = ElementGenerator;
         }
 
         
@@ -22,10 +21,10 @@ namespace FakerClass.Generators.Collections
         public override Dictionary<object, object> Generate()
         {
             Dictionary<object, object> _resultdict = new Dictionary<object, object>();
-            int _dictionarysize = _random.Next(1, 40);
+            int _dictionarysize = random.Next(1, 40);
             for (int i = 1; i < _dictionarysize; i++)
             {
-                _resultdict.Add(listElementGenerator.Invoke(typeof(object)), listElementGenerator.Invoke(typeof(object)));
+                _resultdict.Add(ElementGenerator.Invoke(typeof(object)), ElementGenerator.Invoke(typeof(object)));
             }
             return _resultdict;
         }
@@ -34,10 +33,10 @@ namespace FakerClass.Generators.Collections
             Type _tkeytype = _ttype.GetGenericArguments()[0];
             Type _tvaluetype = _ttype.GetGenericArguments()[1];
             IDictionary _resultdict = (IDictionary)Activator.CreateInstance(typeof(Dictionary<,>).MakeGenericType(_tkeytype, _tvaluetype));
-            int _dictionarysize = _random.Next(1, 40);
+            int _dictionarysize = random.Next(1, 40);
             for (int i = 1; i < _dictionarysize; i++)
             {
-                _resultdict.Add(listElementGenerator.Invoke(_tkeytype), listElementGenerator.Invoke(_tvaluetype));
+                _resultdict.Add(ElementGenerator.Invoke(_tkeytype), ElementGenerator.Invoke(_tvaluetype));
             }
             return _resultdict;
         }
