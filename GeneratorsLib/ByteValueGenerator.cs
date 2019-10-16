@@ -4,16 +4,19 @@ using System.Text;
 using BasicValueGenerater;
 namespace FakerClass.Generators.Basic
 {
-    class FloatValueGenerator : TypedValueGenerater<float>
+    class ByteValueGenerator : TypedValueGenerater<byte>
     {
-        public FloatValueGenerator(Random random)
+
+        public ByteValueGenerator(Random random)
         {
             this.random = random;
         }
 
-        public override float Generate()
+        public override byte Generate()
         {
-            return (float)random.NextDouble();
+
+            return (byte)random.Next((byte.MinValue), (byte.MaxValue));
         }
     }
 }
+

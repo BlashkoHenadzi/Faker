@@ -4,16 +4,16 @@ using System.Text;
 using BasicValueGenerater;
 namespace FakerClass.Generators.Basic
 {
-    class FloatValueGenerator : TypedValueGenerater<float>
+    class CharValueGenerator : TypedValueGenerater<char>
     {
-        public FloatValueGenerator(Random random)
+        public CharValueGenerator(Random random)
         {
             this.random = random;
         }
 
-        public override float Generate()
+        public override char Generate()
         {
-            return (float)random.NextDouble();
+            return (char)random.Next((char.MinValue), (char.MaxValue));
         }
     }
 }

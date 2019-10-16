@@ -14,7 +14,14 @@ namespace FakerClass
         }
         public void AddGenerater(IValueGenerater1 generater)
         {
-            generaterList.Add(generater.TargetType, generater);
+            try
+            {
+                generaterList.Add(generater.TargetType, generater);
+            }
+            catch(ArgumentException)
+            {
+                Console.WriteLine("element with this key is alreade added");
+            }
         }
         public IValueGenerater1 GetGeneraterFromList(Type _generatertype)
         {

@@ -14,6 +14,7 @@ namespace FakerClass.Generators.Generics
         {
             this.random = random;
             this.ElementGenerator = ElementGenerator;
+       
         }
 
         

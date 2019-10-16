@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FakerClass;
-
+using System.Reflection;
 namespace FakerApp
 {
     class Program
@@ -18,18 +18,21 @@ namespace FakerApp
         class Too
         {
             public List<string> _testllist;
+            public Too(List<string> list)
+            {
+                this._testllist = list;
+            }
+            
         }
-        class Foo
+        public class Foo
         {
             public string teststr;
             public string teststr2;
-            public Coo _coo;
 
-            public Foo(string teststr, string teststr2, Coo coo)
+            public Foo(string teststr, string teststr2)
             {
                 this.teststr = teststr;
                 this.teststr2 = teststr2;
-                _coo = coo;
             }
         }
         class Coo
@@ -40,9 +43,16 @@ namespace FakerApp
             }
             public string Ss1 { get; }
         }
+        public enum Days { Monday, te };
         class Dict
         {
-            public Dictionary<string, string> _testdict;
+            int[] dd;
+            
+            Days days;
+            public Dict(int[] ss)
+            {
+                dd = ss;
+            }
         }
         static void Main(string[] args)
         {
@@ -53,6 +63,8 @@ namespace FakerApp
             Too _too = faker2.Create<Too>();
             Faker _faker = new Faker();
             Dict _testdict = _faker.Create<Dict>();
+            Assembly ass= Assembly.LoadFile("C:\\Users\\USER\\source\\repos\\ClassLibrary3\\GeneratorsLib\\bin\\Debug\\GeneratorsLib.dll");
+            Type [] tt=ass.GetTypes();
 
 
 

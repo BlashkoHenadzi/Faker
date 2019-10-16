@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FakerClass.Generators.Collections
+namespace BasicValueGenerater
 {
     public delegate object ElementGenerator(Type _type);
     public interface IColletionGenerator

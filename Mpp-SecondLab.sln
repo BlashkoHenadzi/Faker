@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FakerApp", "FakerApp\FakerA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicValueGenerater", "BasicValueGenerater\BasicValueGenerater.csproj", "{A21374A6-2923-4F48-926C-8E55D75F3132}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneratorsLib", "GeneratorsLib\GeneratorsLib.csproj", "{EDCACD4F-846C-4058-A9B1-E018C96CFC05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{A21374A6-2923-4F48-926C-8E55D75F3132}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A21374A6-2923-4F48-926C-8E55D75F3132}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A21374A6-2923-4F48-926C-8E55D75F3132}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDCACD4F-846C-4058-A9B1-E018C96CFC05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDCACD4F-846C-4058-A9B1-E018C96CFC05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDCACD4F-846C-4058-A9B1-E018C96CFC05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDCACD4F-846C-4058-A9B1-E018C96CFC05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
