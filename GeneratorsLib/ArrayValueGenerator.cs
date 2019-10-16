@@ -9,7 +9,6 @@ namespace GeneratorsLib
     class ArrayValueGenerator : TypedValueGenerater<Array>, IColletionGenerator
     {
         public ElementGenerator ElementGenerator { get; private set; }
-        Random random;
 
         public ArrayValueGenerator(ElementGenerator ElementGenerator,Random random)
         {

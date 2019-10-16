@@ -18,7 +18,7 @@ namespace FakerClass
             {
                 generaterList.Add(generater.TargetType, generater);
             }
-            catch(ArgumentException)
+            catch (ArgumentException)
             {
                 Console.WriteLine("element with this key is alreade added");
             }

@@ -13,7 +13,10 @@ namespace FakerClass.Generators.Basic
 
         public override uint Generate()
         {
-            return (uint)random.Next( Convert.ToInt32(uint.MinValue), Convert.ToInt32(uint.MaxValue));
+            uint thirtyBits = (uint)random.Next(1 << 30);
+            uint twoBits = (uint)random.Next(1 << 2);
+            uint fullRange = (thirtyBits << 2) | twoBits;
+            return fullRange;
         }
     }
 }
